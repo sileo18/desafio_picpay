@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PicPay.Entidades;
 
 public class Transferencia
 {
+    [Key]
     public Guid IdTransferencia { get; private set; }
     
     public long CredorId { get; private set; }

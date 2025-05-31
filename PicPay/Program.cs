@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using PicPay.Infra;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,30 +15,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 32));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options
+    .UseMySql(builder.Configuration.GetConnectionString("defaultConnection"), serverVersion));
+
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,13 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PicPay.Entidades;
 
 public class Carteira
 {
-    public long Id { get; private set; }
+    [Key]
+    public long TitularId { get; private set; }
     
     public decimal Saldo { get; set; }
     
-    public long TitularId { get; private set; }
-
     public Usuario Titular { get; set; }
 
     public Carteira()
@@ -17,7 +19,10 @@ public class Carteira
 
     public Carteira(Usuario titular)
     {
-        TitularId = titular.Id;
+        if (titular == null)
+            throw new ArgumentNullException(nameof(titular));
+
+        TitularId = titular.Id; 
         Titular = titular;
         Saldo = 0;
     }
