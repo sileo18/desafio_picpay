@@ -18,4 +18,16 @@ public class UsuarioMapper
 
         return usuario;
     }
+
+    public ResponseUsuarioDto UsuarioToReponseUsuarioDto(Usuario usuario)
+    {
+        if (usuario == null)
+        {
+            return null; 
+        }
+        
+        ResponseUsuarioDto response = new ResponseUsuarioDto(usuario.Nome, usuario.Id);
+
+        return response;
+    }
 }

@@ -18,16 +18,16 @@ public class UsuarioService : IUsuarioService
 
     public async Task<Usuario> CreateUsuario(AddUsuarioDTO usuarioDto)
     {
-        var exisiteUsuarioEmail = await _repository.FindByCpfCnpj(usuarioDto.CpfCnpj);
+        var existeUsuarioCpfCnpj  = await _repository.FindByCpfCnpj(usuarioDto.CpfCnpj);
 
-        var existeUsuarioCpfCnpj = await _repository.FindByEmail(usuarioDto.Email);
+        var existeUsuarioEmail = await _repository.FindByEmail(usuarioDto.Email);
         
         if (existeUsuarioCpfCnpj != null)
         {
             throw new ArgumentException("CPF/CNPJ já cadastrado!");
         }
         
-        if (exisiteUsuarioEmail != null)
+        if (existeUsuarioEmail != null)
         {
             throw new ArgumentException("Email já cadastrado!");
         }
