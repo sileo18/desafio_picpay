@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PicPay.Entidades;
 
@@ -10,6 +11,7 @@ public class Carteira
     
     public decimal Saldo { get; set; }
     
+    [JsonIgnore]
     public Usuario Titular { get; set; }
 
     public Carteira()
@@ -24,7 +26,7 @@ public class Carteira
 
         TitularId = titular.Id; 
         Titular = titular;
-        Saldo = 0;
+        Saldo = 500.86m;
     }
 
     public void AdicionarSaldo(decimal valor)

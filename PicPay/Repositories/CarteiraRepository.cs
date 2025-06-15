@@ -28,7 +28,13 @@ public class CarteiraRepository : ICarteiraRepository
             .FirstOrDefaultAsync(c => c.TitularId == titularId);
     }
 
-    public async void Save()
+    public async Task<Carteira?> GetByTitularIdAsync(long titularId)
+    {
+        return await _context.Carteiras
+            .FirstOrDefaultAsync(c => c.TitularId == titularId);
+    }
+
+    public async Task Save()
     {
        await _context.SaveChangesAsync();
     }

@@ -7,5 +7,7 @@ public interface ICarteiraRepository
     Task<Carteira> AddAsync(Carteira carteira);
     Task<Carteira?> GetById(long titularId);
 
-    void Save();
+    Task<Carteira?> GetByTitularIdAsync(long titularId);
+
+    Task Save();
 }
