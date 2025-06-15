@@ -10,7 +10,7 @@ public class Usuario
     public long Id { get; private set; }
     public string Nome { get; set; }
     
-    public string CpfCnpj { get; private set; }
+    public string CpfCnpj { get; set; }
     
     public string Email { get; set; }
     
