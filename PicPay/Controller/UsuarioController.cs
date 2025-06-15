@@ -15,9 +15,12 @@ public class UsuarioController : ControllerBase
 
     private readonly IUsuarioService _usuarioService;
 
-    public UsuarioController(IUsuarioService usuarioService)
+    private UsuarioMapper _mapper;
+
+    public UsuarioController(IUsuarioService usuarioService, UsuarioMapper mapper)
     {
         _usuarioService = usuarioService;
+        _mapper = mapper;
     }
 
     [HttpPost("create")]
@@ -27,11 +30,9 @@ public class UsuarioController : ControllerBase
         {
             Usuario usuario = await _usuarioService.CreateUsuario(request);
 
-            UsuarioMapper mapper = new UsuarioMapper();
+            ResponseUsuarioDto response = _mapper.UsuarioToReponseUsuarioDto(usuario);
 
-            ResponseUsuarioDto response = mapper.UsuarioToReponseUsuarioDto(usuario);
-
-            return Created("", response);
+            return CreatedAtRoute(nameof(GetUsuarioById), new {usuarioId = response.Id}, response);
 
         }
         catch (ArgumentException ex)
@@ -43,6 +44,31 @@ public class UsuarioController : ControllerBase
         {
             return StatusCode(500, new { message = "Ocorreu um erro interno no servido." });
         }
+    }
+
+    [HttpGet("{usuarioId:long}", Name = nameof(GetUsuarioById))]
+    public async Task<ActionResult<ResponseUsuarioDto?>> GetUsuarioById(long usuarioId)
+    {
+        try
+        {
+            var usuario = await _usuarioService.GetUsuarioById(usuarioId);
+
+            if (usuario == null)
+            {
+                return NotFound(new { message = "Usuário não encontrado." });
+            }
+
+            ResponseUsuarioDto response = _mapper.UsuarioToReponseUsuarioDto(usuario);
+
+            return Ok(response);
+        }
+
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Ocorreu um erro interno no servido." });
+        }
+        
+        
     }
     
 }

@@ -15,7 +15,7 @@ public class UsuarioMapper
         usuario.Email = usuarioDto.Email;
         usuario.Nome = usuarioDto.Nome;
         usuario.Senha = usuarioDto.Senha;
-
+        usuario.TipoUsuario = usuarioDto.TiposUsuario;
         return usuario;
     }
 
