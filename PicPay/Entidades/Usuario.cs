@@ -18,7 +18,7 @@ public class Usuario
     
     public Carteira Carteira { get; set; }
     
-    private TiposUsuario TipoUsuario { get; set; }
+    public TiposUsuario TipoUsuario { get; set; }
 
     public Usuario()
     {
